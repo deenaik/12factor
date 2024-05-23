@@ -1,15 +1,16 @@
 from flask import Flask
+from redis import Redis
 
 app = Flask(__name__)
+# RedisDB to keep track of the number of visits
+redisDb = Redis(host='redis', port=6380)
 
-# Global variable to keep track of the number of visits
-visitCount = 0
 
 @app.route('/')
 def WelcomeToKodeKloud():
-    global visitCount
     # Increment the visit count
-    visitCount += 1
+    redisDb.incr('visitCount')
+    visitCount = str(redisDb.get('visitCount').decode('utf-8'))
     return "Welcome to KodeKloud! Visit Count: " + str(visitCount) + "\n"
 
 

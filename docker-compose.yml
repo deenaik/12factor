@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    image: "deenaik/12factor"
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/code
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6380:6380"
